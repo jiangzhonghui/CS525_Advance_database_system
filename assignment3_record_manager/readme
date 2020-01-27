@@ -1,0 +1,117 @@
+
+
+CS 525----Assignment 3---Record Manager------------
+
+
+The objective of this assignmnet is to implement a Record Manager that handles tables with a fixed schema.The record manager accessses the pages of the file through the buffer manager we implemented in assignment 2.
+
+-----Group Members-----
+
+Deep Patel (A20446182) 
+Baltej Singh(A20444488) 
+Kripa Patel(A20449132)(Group Leader)
+
+-----Running Instructions:
+
+To make/compile files:
+
+Open Terminal
+
+Go to the path where files are extracted
+
+Run the below command: 
+
+To clean previous object files : make clean
+
+To run all the files: make
+
+Run test case 1 : ./test_assign3_1
+
+
+To remove object files, run make clean command
+
+ ------Table and Record Manager Functions------
+ 
+1.initRecordManager() - 
+This function is used to initialize the Record Manager.
+To initilize the Storage Manager, we use initStorageManager()from Assignmnet 1.
+
+
+2.shutdownRecordManager() -
+This function is used to Shutdown the record manager and free all the resources allocated to the record manager..
+
+-------Functions for Creating, Opening, Closing, Deleting Table-------
+
+3.createTable() - 
+This fuction is used to create a new table.
+The table name and schema are passed as Arguments.
+It initialize the table info page and also creates the first page which is the reserved page.
+
+4.openTable() -
+This function is used to open the table with the name specified in the input parameter name.
+It initializes the Buffer pool using the initBufferPool method of Assignmnet 2 Buffer Pool and initializes all the values of the table.
+
+5.closeTable() -
+This function is used to close a table.
+It uses Buffer manager's function shutdownBufferPool() and before the buffer manager is shut down, it writes all the outstanding changes to the table, to the page file.
+
+6.deleteTable() -
+This function deletes the table with the name specified in the input parameter name.
+It uses Store manager function destroyPageFile(), which deletes the page from the disk and de-allocates the memory space.
+
+7.getNumTuples() -
+This function returns the number of tuples in the table. 
+
+
+------- Record Functions -------
+
+8.insertRecord() -
+This function inserts a record in the table, Record i.e the record id of the record is used as the input parameter and sets the Record ID of the record being inserted. Record parameter passed is updated.
+
+9.deleteRecord() -
+This function deletes a record in the table having the record ID  'id' that is passed as the input parameter to the function. 
+
+10.updateRecord() - 
+This function updates a record referenced by the input parameter record that is passed to the function.
+It pins the page(where the record is present) in the Buffer pool.
+It sets the record id and the slot id.
+
+11.getRecord() - 
+This function retrieves a record having record ID 'id' that is passed as an input parameter in the function.
+The result record is stored in the location referenced by the input parameter 'record'.
+
+-------- Scan Functions -------
+
+12.startScan() - This function initializes a new scan manager and the RM_ScanHandle data structure that is passed as input parameter, with the given expression.
+It starts a scan by getting data from the RM_ScanHandle data structure.
+
+13.next() - This function returns the next record that satisfies the expression condition.
+If there are no more records that fulfill the condition, then we return error code RC_RM_NO_MORE_TUPLES.
+
+14.closeScan() -This function is used to close the scan operation and de-allocates the resources.
+
+
+-------- Schema Functions -------
+
+15.getRecordSize() - It returns the size (in bytes) of the record in the specified schema passed as the input parameter.	
+The value of the variable 'mem1' will be the size of the record.
+
+16.createSchema() - This function creates a new schema with the specified input parameters.
+Input parameter numAttr specifies the number of parameters, attrNames specifies the name of the attributes, datatypes specifies the datatype of the attributes and typeLength specifies the length of the attribute. 
+
+17.freeSchema() - This fuction removes the schema specified by input parameter 'schema' from the memory, by deallocating all the resources used by the schema.
+
+
+-------- ATTRIBUTE Functions -------
+
+18.createRecord() - This function is used to create a new (empty) record in the schema passed as the input parameter to the function.
+Enough memory space is allocated to the new record, to hold the binary representation of all the attributes in the record (record size).
+This new record is assigned to the record 'record' passed as the input parameter to the function.
+
+19.freeRecord() - This function is used to de-allocate the memory space allocated to the input parameter record.
+
+20.getAttr() - This function retrieves an attribute from the given schema and the record, attribute number whose data is to be retrieved is passed through the parameter to the function.
+The attribute values of the retrieved record are stored back to the location referenced by 'value' parameter passed as input to the function.
+
+21.setAttr() - This function is used to set the attribute value in the record in given schema. The record, Schema and attribute number whose value are to be set are passed as an input parameters to the function.
+The data to be set in the attributes is passed by 'value' parameter. 
